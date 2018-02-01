@@ -1,0 +1,3 @@
+# uKnow
+
+It predicts your future by taking a virtual interview. This app will take your interview like a job interview. First of all, we will be going to use Emotion API in detecting your confidence level while taking your interview and will be going to assign marks for that. Secondly, this app asks your some academic and other achievements. Thirdly it will ask you some questions to test your conscientiousness, agreeableness, extraversion, and openess_to_experience and finally use our pre-trained Machine Learning Model { trained by AMEO data-sets} and predicts your future package. Finally, we will be going to use Speech API and Text Analytic API for feedback purpose.
