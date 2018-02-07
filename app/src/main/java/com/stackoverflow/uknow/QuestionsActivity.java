@@ -62,7 +62,7 @@ public class QuestionsActivity extends AppCompatActivity {
     String branch;
     private String clg;
     private double cg,ten,twelwe;
-    double English_marks = 0, Logic_marks = 0, Basic_cp_marks = 0, Personality_marks = 0, Branch_specific_marks = 0, TOTAL_SCORE = 0;
+    double English_marks = 0, Logic_marks = 0, Basic_cp_marks = -3.0, Personality_marks = 0, Branch_specific_marks = -3.0, TOTAL_SCORE = 0;
     int agreeableness = 0, conscientiousness = 0, extraversion = 0, nueroticism = 0, openess_to_experience = 0;
 
     FirebaseDatabase firebaseDatabase;
@@ -112,7 +112,7 @@ public class QuestionsActivity extends AppCompatActivity {
                 RadioGroup radioGroup =(RadioGroup)findViewById(R.id.radio_group);
                 String response = getResponse(radioGroup.getCheckedRadioButtonId());
                 //RadioButton answer = (RadioButton)findViewById(radioGroup.getCheckedRadioButtonId());
-                if (qid<2){
+                if (qid<=2){
                     if (response.equals(current_ques.getAnswers())== true){
                         English_marks=English_marks+3;
                     }
@@ -131,44 +131,60 @@ public class QuestionsActivity extends AppCompatActivity {
                     if(response.equals("A")==true){
                         Personality_marks=Personality_marks+0.5;
                         openess_to_experience=openess_to_experience+3;
-                    }else{
+                    }else if (response.equals("B")){
                         Personality_marks=Personality_marks+1;
                         openess_to_experience=openess_to_experience+4;
+                    }else {
+                        Personality_marks=Personality_marks+0;
+                        openess_to_experience=openess_to_experience+0;
                     }
                 }
                 if(qid==10){
                     if(response.equals("A")==true){
                         Personality_marks=Personality_marks+2;
                         extraversion=extraversion+5;
-                    }else{
+                    }else if (response.equals("B")){
                         Personality_marks=Personality_marks+0.5;
                         extraversion=extraversion+2;
+                    }else {
+                        Personality_marks=Personality_marks+0;
+                        extraversion=extraversion+0;
                     }
                 }
                 if(qid==11){
                     if(response.equals("A")==true){
                         Personality_marks=Personality_marks+0;
                         nueroticism=nueroticism-2;
-                    }else{
+                    }else if (response.equals("B")){
                         Personality_marks=Personality_marks+1;
                         nueroticism=nueroticism+1;
+                    }else {
+                        Personality_marks=Personality_marks+0;
+                        nueroticism=nueroticism+0;
                     }
                 }
                 if(qid==12){
                     if(response.equals("A")==true){
                         Personality_marks=Personality_marks+2;
                         conscientiousness=conscientiousness+3;
-                    }else{
+                    }else if(response.equals("B")){
                         conscientiousness=conscientiousness-4;
+                    }else {
+                        conscientiousness=conscientiousness-0;
                     }
+
                 }
                 if(qid==13){
                     if(response.equals("A")==true){
                         Personality_marks=Personality_marks+1;
                         agreeableness=agreeableness+2;
-                    }else{
+                    }else if (response.equals("B")){
                         agreeableness=agreeableness+5;
                         Personality_marks=Personality_marks+2;
+                    }
+                    else{
+                        agreeableness=agreeableness+0;
+                        Personality_marks=Personality_marks+0;
                     }
                 }
                 if (qid > 13 && qid <= 16) {

@@ -4,23 +4,107 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.stackoverflow.uknow.MainActivity">
+    tools:context="com.stackoverflow.uknow.MainActivity"
+    android:background="@drawable/bg2"
+    android:alpha="0.9"
+    tools:ignore="ExtraText">
 
-    <Button
-        android:layout_width="wrap_content"
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Logout"
-        android:id="@+id/logout_btn"/>
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/textView3"
+        android:layout_marginTop="29dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:text="Just go through a small test before knowing your package"
+        android:textAlignment="center"
+        android:textColor="#ffffff" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="36dp"
+        android:text="CURIOUS!"
+        android:textAlignment="center"
+        android:textColor="#ff5"
+        android:textSize="30dp" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="100dp"
+        android:layout_below="@+id/textView2"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="34dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginLeft="10dp"
+        android:fadeScrollbars="false"
+        android:overScrollMode="always"
+        android:paddingBottom="10dp"
+        android:paddingTop="10dp"
+        android:maxLines="5"
+        android:scrollbarAlwaysDrawVerticalTrack="true"
+        android:scrollbarSize="100dp"
+        android:scrollbarStyle="insideOverlay"
+        android:scrollbars="vertical"
+        android:text="
+*INSTRUCTIONS*\n
+--Try Attempting all the questions.\n
+--All the questions are single correct choices.\n
+--You will not be able to edit any question after submission.\n
+--There are five categories of questions:\n
+-English\n
+-Basic programming\n
+-Branch specific\n
+-Logic\n
+-Personality\n
+--personality questions may carry negative marking\n
+"
+        android:textAlignment="center"
+        android:textColor="#ffffff" />
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/textView"
+        android:layout_marginTop="42dp"
+        android:text="We Hope for your Bright Future..."
+        android:textAlignment="center"
+        android:textColor="#ffffff"
+        android:textSize="22dp" />
 
     <Button
         android:id="@+id/start"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="94dp"
-        android:layout_toEndOf="@+id/logout_btn"
-        android:text="Start"
+        android:layout_below="@+id/textView4"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="44dp"
+        android:background="#29000000"
+        android:text="Start Virtual Interview"
+        android:textColor="#00e9ff"
+        android:textSize="25dp"
         tools:layout_editor_absoluteX="148dp"
         tools:layout_editor_absoluteY="0dp" />
+
+    <TextView
+        android:id="@+id/textView5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignStart="@+id/textView4"
+        android:layout_marginBottom="16dp"
+        android:background="#29000000"
+        android:clickable="true"
+        android:text="Go to Dashboard"
+        android:textColor="#00e9ff"
+        android:textSize="15dp" />
 
 </RelativeLayout>

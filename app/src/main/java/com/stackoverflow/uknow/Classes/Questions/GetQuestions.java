@@ -26,7 +26,7 @@ public class GetQuestions {
         english_single_correct.add(questions31);
         Questions questions32 = new Questions(3,"Direction: Select the correct option that fills the blank(s) to make the sentence\n" +
                "grammatically correct.\n" +
-               "The success that he has gained, though striking enough, does not, however, commensurate\n" +
+               "The success that he has gained, though striking enough, does not, however, commensurate _________\n" +
                "the efforts made by him.","C","about","from","with","beside");
         english_single_correct.add(questions32);
         Questions questions33 = new Questions(4,"The small child does whatever his father was done.\n","C","has done","did","does", "had done");
@@ -171,27 +171,27 @@ public class GetQuestions {
                 "A", "Interaction between man machine working environment", "Appearance of the product",
                 "Both a. and b.",
                 "None of the above");
-        logic_single_correct.add(questions10);
+        mechanical_single_correct.add(questions10);
         Questions questions11 = new Questions(2,"The radial force in rotodynamic machine, which is developed by rate of change of momentum in radial velocity, is taken care by__________." ,
                 "A", "journal bearing", "radial thrust bearing",
                 "both a. and b.",
                 "none of the above");
-        logic_single_correct.add(questions11);
+        mechanical_single_correct.add(questions11);
         Questions questions12 = new Questions(3,"_______________ components of fluid velocity have the responsibility of the transportation of fluid through the machine." ,
                 "C", "Radial and tangential", "Tangential and axial",
                 "Radial and axial",
                 "None of the existing");
-        logic_single_correct.add(questions12);
+        mechanical_single_correct.add(questions12);
         Questions questions13 = new Questions(4,"The characteristic that provides an output with respect to the relation with the input is called as ___________" ,
                 "B", "calibration of a system", "response of a system",
                 "characteristic relation of a system",
                 "instrumentation of a system");
-        logic_single_correct.add(questions13);
+        mechanical_single_correct.add(questions13);
         Questions questions14 = new Questions(5,"The process of establishment of a relationship between the input to the instrument and output from the instrument is called as_____" ,
                 "D", "40", "56",
                 "64",
                 "72");
-        logic_single_correct.add(questions14);
+        mechanical_single_correct.add(questions14);
 
 
         //personality

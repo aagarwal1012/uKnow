@@ -5,8 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/golu2"
-    android:alpha="0.8"
+    android:background="@drawable/bg2"
     tools:context=".FillDetails"
     >
 
@@ -37,7 +36,8 @@
                 android:hint="CGPA"
                 android:textSize="20dp"
                 android:textColor="#ffffff"
-                tools:ignore="InvalidId" />
+                tools:ignore="InvalidId"
+                android:inputType="numberDecimal"/>
         </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout
@@ -54,7 +54,8 @@
                 android:layout_height="wrap_content"
                 android:hint="10th percentage"
                 android:textSize="20dp"
-                tools:ignore="InvalidId" />
+                tools:ignore="InvalidId"
+                android:inputType="numberDecimal"/>
         </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout
@@ -69,7 +70,8 @@
                 android:textSize="20dp"
                 android:layout_marginLeft="10dp"
                 android:hint="12th percentage"
-                tools:ignore="InvalidId" />
+                tools:ignore="InvalidId"
+                android:inputType="numberDecimal"/>
         </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout

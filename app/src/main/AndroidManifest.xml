@@ -40,7 +40,11 @@
 
         <activity android:name=".FillDetails" />
         <activity android:name=".QuestionsActivity" />
-        <activity android:name=".Result"></activity>
+        <activity android:name=".Result" />
+        <activity
+            android:name=".Classes.Dashboard"
+            android:label="@string/title_activity_dashboard"
+            android:theme="@style/AppTheme"></activity>
     </application>
 
 </manifest>

@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@drawable/bg5"
     android:padding="16dp"
     >
 
@@ -20,10 +21,10 @@
 
     <TextView
         android:id="@+id/question_des"
-        android:layout_width="300dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignTop="@+id/question_no"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/question_no"
         android:text="dchbdjcskbskbjskjbdksjbskbkdbjskbdskbsdkbjsdkbsdkbskbjckbcskbskjbcsjkbcskbjcskbcskbckbcskbcskbsckbk"
         android:textColor="#000000" />
 
@@ -33,20 +34,20 @@
         android:layout_width="match_parent"
         android:layout_height="200dp"
         android:id="@+id/radio_group"
-        android:layout_marginTop="200dp">
+        android:layout_marginTop="260dp">
 
         <RadioButton
+            android:id="@+id/option_1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:id="@+id/option_1"
             android:text="Option1" />
 
         <RadioButton
+            android:id="@+id/option_2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:id="@+id/option_2"
             android:text="Option2" />
 
         <RadioButton
@@ -69,6 +70,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
+        android:textColor="#ffffff"
+        android:background="#0034aa"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
         android:layout_alignParentStart="true"
         android:text="SAVE AND NEXT" />
 </RelativeLayout>

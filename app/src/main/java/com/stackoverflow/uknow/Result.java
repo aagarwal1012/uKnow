@@ -3,6 +3,7 @@ package com.stackoverflow.uknow;
 import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.PieChart;
@@ -52,6 +53,8 @@ public class Result extends AppCompatActivity {
     value city_value, designation_value;
 
     TextView income, city, designation;
+
+    TextView income_text_view, city_textview, designation_textview;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -107,110 +110,130 @@ public class Result extends AppCompatActivity {
         city = (TextView) findViewById(R.id.city);
         designation = (TextView) findViewById(R.id.designation);
 
+        income_text_view = (TextView) findViewById(R.id.textView);
+        city_textview = (TextView) findViewById(R.id.city_textview);
+        designation_textview = (TextView) findViewById(R.id.designation_textview);
+
         double percentage = ((English_marks+Logic_marks+Basic_cp_marks+Personality_marks+Branch_specific_marks)/45)*100;
 
-        IncomeCalculator incomeCalculator = new IncomeCalculator(cg,percentage, clg );
+        IncomeCalculator incomeCalculator = new IncomeCalculator(cg,percentage, clg, branch );
         Double income_x = ((int)(incomeCalculator.getP()*100))/100.0;
-        income.setText(""+income_x+" Lacs per Year");
 
+        if (income_x != 0.0){
 
-        databaseReference.child("City_Designation_Predicted").child(timestamp).child("City").addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                city_value = dataSnapshot.getValue(value.class);
-                if (city_value != null){
-                    value predictedValues = city_value;
-                    List<String> probabilities = predictedValues.getValues().get(0);
-                    List<Entry> yvalues = new ArrayList<>();
-                    List<String> xVals = new ArrayList<String>();
-                    int count = 0;
-                    for (int i = 17; i<=30 ; i++){
-                        if(Float.parseFloat(probabilities.get(i))>=0.05){
-                            yvalues.add(new Entry(Float.parseFloat(probabilities.get(i)), count));
-                            xVals.add(getCityName(predictedValues.getColumnNames().get(i)));
-                            count++;
+            income.setText(""+income_x+" Lacs per Year");
+
+            databaseReference.child("City_Designation_Predicted").child(timestamp).child("City").addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    city_value = dataSnapshot.getValue(value.class);
+                    if (city_value != null){
+                        value predictedValues = city_value;
+                        List<String> probabilities = predictedValues.getValues().get(0);
+                        List<Entry> yvalues = new ArrayList<>();
+                        List<String> xVals = new ArrayList<String>();
+                        int count = 0;
+                        for (int i = 17; i<=30 ; i++){
+                            if(Float.parseFloat(probabilities.get(i))>=0.05){
+                                yvalues.add(new Entry(Float.parseFloat(probabilities.get(i)), count));
+                                xVals.add(getCityName(predictedValues.getColumnNames().get(i)));
+                                count++;
+                            }
                         }
+                        PieDataSet dataSet = new PieDataSet(yvalues, "");
+
+
+                        PieData data = new PieData(xVals,dataSet);
+
+                        data.setValueFormatter(new PercentFormatter());
+
+                        //Disable Hole in the Pie Chart
+                        city_piechart.setDrawHoleEnabled(false);
+                        dataSet.setColors(ColorTemplate.COLORFUL_COLORS);
+
+                        city_piechart.setDrawHoleEnabled(true);
+                        city_piechart.setTransparentCircleRadius(30f);
+                        city_piechart.setHoleRadius(30f);
+
+                        city_piechart.setDescription("City Predictor");
+
+                        data.setValueTextSize(13f);
+                        data.setValueTextColor(Color.DKGRAY);
+
+                        city_piechart.setData(data);
+
+                        city.setText(probabilities.get(probabilities.size()-1));
                     }
-                    PieDataSet dataSet = new PieDataSet(yvalues, "");
-
-
-                    PieData data = new PieData(xVals,dataSet);
-
-                    data.setValueFormatter(new PercentFormatter());
-
-                    //Disable Hole in the Pie Chart
-                    city_piechart.setDrawHoleEnabled(false);
-                    dataSet.setColors(ColorTemplate.COLORFUL_COLORS);
-
-                    city_piechart.setDrawHoleEnabled(true);
-                    city_piechart.setTransparentCircleRadius(30f);
-                    city_piechart.setHoleRadius(30f);
-
-                    city_piechart.setDescription("City Predictor");
-
-                    data.setValueTextSize(13f);
-                    data.setValueTextColor(Color.DKGRAY);
-
-                    city_piechart.setData(data);
-
-                    city.setText(probabilities.get(probabilities.size()-1));
                 }
-            }
 
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
 
-            }
-        });
+                }
+            });
 
-        databaseReference.child("City_Designation_Predicted").child(timestamp).child("Designation").addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                designation_value = dataSnapshot.getValue(value.class);
-                if (designation_value != null){
-                    value predictedValues = designation_value;
-                    List<String> probabilities = predictedValues.getValues().get(0);
-                    List<Entry> yvalues = new ArrayList<>();
-                    List<String> xVals = new ArrayList<String>();
-                    int count = 0;
-                    for (int i = 17; i<=48 ; i++){
-                        if(Float.parseFloat(probabilities.get(i))>=0.05){
-                            yvalues.add(new Entry(Float.parseFloat(probabilities.get(i)), count));
-                            xVals.add(getDesignationName(predictedValues.getColumnNames().get(i)));
-                            count++;
+            databaseReference.child("City_Designation_Predicted").child(timestamp).child("Designation").addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    designation_value = dataSnapshot.getValue(value.class);
+                    if (designation_value != null){
+                        value predictedValues = designation_value;
+                        List<String> probabilities = predictedValues.getValues().get(0);
+                        List<Entry> yvalues = new ArrayList<>();
+                        List<String> xVals = new ArrayList<String>();
+                        int count = 0;
+                        for (int i = 17; i<=48 ; i++){
+                            if(Float.parseFloat(probabilities.get(i))>=0.05){
+                                yvalues.add(new Entry(Float.parseFloat(probabilities.get(i)), count));
+                                xVals.add(getDesignationName(predictedValues.getColumnNames().get(i)));
+                                count++;
+                            }
                         }
+                        PieDataSet dataSet = new PieDataSet(yvalues, "");
+
+
+                        PieData data = new PieData(xVals,dataSet);
+
+                        data.setValueFormatter(new PercentFormatter());
+
+                        //Disable Hole in the Pie Chart
+                        designation_piechart.setDrawHoleEnabled(false);
+                        dataSet.setColors(ColorTemplate.COLORFUL_COLORS);
+
+                        designation_piechart.setDrawHoleEnabled(true);
+                        designation_piechart.setTransparentCircleRadius(30f);
+                        designation_piechart.setHoleRadius(30f);
+
+                        designation_piechart.setDescription("Designation Predictor");
+
+                        data.setValueTextSize(13f);
+                        data.setValueTextColor(Color.DKGRAY);
+
+                        designation_piechart.setData(data);
+
+                        designation.setText(probabilities.get(probabilities.size()-1));
                     }
-                    PieDataSet dataSet = new PieDataSet(yvalues, "");
-
-
-                    PieData data = new PieData(xVals,dataSet);
-
-                    data.setValueFormatter(new PercentFormatter());
-
-                    //Disable Hole in the Pie Chart
-                    designation_piechart.setDrawHoleEnabled(false);
-                    dataSet.setColors(ColorTemplate.COLORFUL_COLORS);
-
-                    designation_piechart.setDrawHoleEnabled(true);
-                    designation_piechart.setTransparentCircleRadius(30f);
-                    designation_piechart.setHoleRadius(30f);
-
-                    designation_piechart.setDescription("Designation Predictor");
-
-                    data.setValueTextSize(13f);
-                    data.setValueTextColor(Color.DKGRAY);
-
-                    designation_piechart.setData(data);
-
-                    designation.setText(probabilities.get(probabilities.size()-1));
                 }
-            }
 
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
 
-            }
-        });
+                }
+            });
+        }
+        else {
+            income.setVisibility(View.INVISIBLE);
+            income_text_view.setText("Not Eligible for Job");
+
+            city.setVisibility(View.INVISIBLE);
+            designation.setVisibility(View.INVISIBLE);
+
+            city_textview.setVisibility(View.INVISIBLE);
+            designation_textview.setVisibility(View.INVISIBLE);
+
+            city_piechart.setVisibility(View.INVISIBLE);
+            designation_piechart.setVisibility(View.INVISIBLE);
+        }
 
 
         english_text_view.setText(""+English_marks);
