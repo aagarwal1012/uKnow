@@ -3,40 +3,24 @@ package com.stackoverflow.uknow;
 import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
-import com.github.mikephil.charting.data.PieEntry;
 import com.github.mikephil.charting.formatter.PercentFormatter;
 import com.github.mikephil.charting.utils.ColorTemplate;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-import com.stackoverflow.uknow.CityPredictor.City_retrofitInterface;
-import com.stackoverflow.uknow.DesignationPredictor.Designation_retrofitInterface;
-import com.stackoverflow.uknow.DesignationPredictor.Input.Inputs;
-import com.stackoverflow.uknow.DesignationPredictor.Input.Sendinput;
-import com.stackoverflow.uknow.DesignationPredictor.Input.input1;
-import com.stackoverflow.uknow.DesignationPredictor.Outputs.Output;
-import com.stackoverflow.uknow.DesignationPredictor.Outputs.output1;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.stackoverflow.uknow.Classes.IncomeCalculator;
 import com.stackoverflow.uknow.DesignationPredictor.Outputs.value;
 
-import java.io.IOException;
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
-
-import okhttp3.Interceptor;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 public class Result extends AppCompatActivity {
 
@@ -50,6 +34,7 @@ public class Result extends AppCompatActivity {
     public static final String city_apiKey =
             "Bearer +p+ZYUfF39hz1mHPO/inQwQDLMo0TksFpBjyHRKh6WBDdZco6tVDhUEzhXut+7SgtUPIsr3gnCI88RRGPHdtpA==";
 
+    String timestamp;
     String branch;
     private String clg;
     private double cg,ten,twelwe;
@@ -59,12 +44,24 @@ public class Result extends AppCompatActivity {
     TextView english_text_view, logic_text_view, Basic_text_view, Personality_text_view, branch_text_view,
             agreeableness_text_view, conscientiousness_text_view, extraversion_text_view, nueroticism_text_view, openess_to_experience_text_view;
 
-    PieChart city_piechart;
+    PieChart city_piechart, designation_piechart;
+
+    FirebaseDatabase firebaseDatabase;
+    DatabaseReference databaseReference;
+
+    value city_value, designation_value;
+
+    TextView income, city, designation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_result);
+
+        //Firebase
+        firebaseDatabase = FirebaseDatabase.getInstance();
+        databaseReference = firebaseDatabase.getReference();
+
 
         TOTAL_SCORE = Double.parseDouble(getIntent().getExtras().getString("Total"));
 
@@ -74,6 +71,8 @@ public class Result extends AppCompatActivity {
 
         branch = getIntent().getExtras().getString("Branch");
         clg = getIntent().getExtras().getString("College");
+
+        timestamp = getIntent().getExtras().getString("TimeStamp");
 
         English_marks = Double.parseDouble(getIntent().getExtras().getString("Eng"));
         Logic_marks = Double.parseDouble(getIntent().getExtras().getString("Log"));
@@ -87,6 +86,11 @@ public class Result extends AppCompatActivity {
         nueroticism = (int) Double.parseDouble(getIntent().getExtras().getString("Nueroticism"));
         openess_to_experience = (int) Double.parseDouble(getIntent().getExtras().getString("Openess to experience"));
 
+        city_piechart = (PieChart) findViewById(R.id.city_piechart);
+        city_piechart.setUsePercentValues(true);
+
+        designation_piechart = (PieChart) findViewById(R.id.designation_piechart);
+        designation_piechart.setUsePercentValues(true);
 
         english_text_view = (TextView) findViewById(R.id.english_marks);
         logic_text_view = (TextView) findViewById(R.id.logic_marks);
@@ -99,8 +103,115 @@ public class Result extends AppCompatActivity {
         nueroticism_text_view = (TextView) findViewById(R.id.q3);
         openess_to_experience_text_view = (TextView) findViewById(R.id.q1);
 
-        city_piechart = (PieChart) findViewById(R.id.city_piechart);
-        city_piechart.setUsePercentValues(true);
+        income = (TextView) findViewById(R.id.income_text_view);
+        city = (TextView) findViewById(R.id.city);
+        designation = (TextView) findViewById(R.id.designation);
+
+        double percentage = ((English_marks+Logic_marks+Basic_cp_marks+Personality_marks+Branch_specific_marks)/45)*100;
+
+        IncomeCalculator incomeCalculator = new IncomeCalculator(cg,percentage, clg );
+        Double income_x = ((int)(incomeCalculator.getP()*100))/100.0;
+        income.setText(""+income_x+" Lacs per Year");
+
+
+        databaseReference.child("City_Designation_Predicted").child(timestamp).child("City").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                city_value = dataSnapshot.getValue(value.class);
+                if (city_value != null){
+                    value predictedValues = city_value;
+                    List<String> probabilities = predictedValues.getValues().get(0);
+                    List<Entry> yvalues = new ArrayList<>();
+                    List<String> xVals = new ArrayList<String>();
+                    int count = 0;
+                    for (int i = 17; i<=30 ; i++){
+                        if(Float.parseFloat(probabilities.get(i))>=0.05){
+                            yvalues.add(new Entry(Float.parseFloat(probabilities.get(i)), count));
+                            xVals.add(getCityName(predictedValues.getColumnNames().get(i)));
+                            count++;
+                        }
+                    }
+                    PieDataSet dataSet = new PieDataSet(yvalues, "");
+
+
+                    PieData data = new PieData(xVals,dataSet);
+
+                    data.setValueFormatter(new PercentFormatter());
+
+                    //Disable Hole in the Pie Chart
+                    city_piechart.setDrawHoleEnabled(false);
+                    dataSet.setColors(ColorTemplate.COLORFUL_COLORS);
+
+                    city_piechart.setDrawHoleEnabled(true);
+                    city_piechart.setTransparentCircleRadius(30f);
+                    city_piechart.setHoleRadius(30f);
+
+                    city_piechart.setDescription("City Predictor");
+
+                    data.setValueTextSize(13f);
+                    data.setValueTextColor(Color.DKGRAY);
+
+                    city_piechart.setData(data);
+
+                    city.setText(probabilities.get(probabilities.size()-1));
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+        databaseReference.child("City_Designation_Predicted").child(timestamp).child("Designation").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                designation_value = dataSnapshot.getValue(value.class);
+                if (designation_value != null){
+                    value predictedValues = designation_value;
+                    List<String> probabilities = predictedValues.getValues().get(0);
+                    List<Entry> yvalues = new ArrayList<>();
+                    List<String> xVals = new ArrayList<String>();
+                    int count = 0;
+                    for (int i = 17; i<=48 ; i++){
+                        if(Float.parseFloat(probabilities.get(i))>=0.05){
+                            yvalues.add(new Entry(Float.parseFloat(probabilities.get(i)), count));
+                            xVals.add(getDesignationName(predictedValues.getColumnNames().get(i)));
+                            count++;
+                        }
+                    }
+                    PieDataSet dataSet = new PieDataSet(yvalues, "");
+
+
+                    PieData data = new PieData(xVals,dataSet);
+
+                    data.setValueFormatter(new PercentFormatter());
+
+                    //Disable Hole in the Pie Chart
+                    designation_piechart.setDrawHoleEnabled(false);
+                    dataSet.setColors(ColorTemplate.COLORFUL_COLORS);
+
+                    designation_piechart.setDrawHoleEnabled(true);
+                    designation_piechart.setTransparentCircleRadius(30f);
+                    designation_piechart.setHoleRadius(30f);
+
+                    designation_piechart.setDescription("Designation Predictor");
+
+                    data.setValueTextSize(13f);
+                    data.setValueTextColor(Color.DKGRAY);
+
+                    designation_piechart.setData(data);
+
+                    designation.setText(probabilities.get(probabilities.size()-1));
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
 
         english_text_view.setText(""+English_marks);
         logic_text_view.setText(""+Logic_marks);
@@ -113,121 +224,6 @@ public class Result extends AppCompatActivity {
         extraversion_text_view.setText(""+extraversion);
         nueroticism_text_view.setText(""+ nueroticism);
         openess_to_experience_text_view.setText(""+openess_to_experience);
-
-        predictCity();
-
-    }
-
-    public void predictDesignation(){
-        OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
-        httpClient.addInterceptor(new Interceptor() {
-            @Override
-            public Response intercept(Chain chain) throws IOException {
-
-                Request original = chain.request();
-
-                Request request = original.newBuilder()
-                        .header("Authorization", designation_apiKey)
-                        .header("Content-Type", "application/json")
-                        .header("Accept", "application/json")
-                        .method(original.method(), original.body())
-                        .build();
-
-                return chain.proceed(request);
-            }
-        });
-
-        OkHttpClient client = httpClient.build();
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(desugnation_url)
-                .addConverterFactory(GsonConverterFactory.create())
-                .client(client)
-                .build();
-
-        List<String> values = getValues();
-        input1 input1 = new input1(values);
-        Inputs inputs = new Inputs(input1);
-        Sendinput sendinput = new Sendinput(inputs);
-
-        Designation_retrofitInterface retro = retrofit.create(Designation_retrofitInterface.class);
-
-        Gson gson = new Gson();
-        Type type = new TypeToken<Sendinput>() {}.getType();
-        String json = gson.toJson(sendinput, type);
-        Log.d("json request",json);
-
-        Call<Output> call = retro.getResult("2.0", true,sendinput);
-        call.enqueue(new Callback<Output>() {
-            @Override
-            public void onResponse(Call<Output> call, retrofit2.Response<Output> response) {
-                Log.d("response",String.valueOf(response.code()));
-                output1 output1 = response.body().getResults().getOutput1();
-                Log.d("Message", "message received "+ output1.getType());
-            }
-
-            @Override
-            public void onFailure(Call<Output> call, Throwable t) {
-                Log.d("Error", "Not Received");
-            }
-        });
-
-
-    }
-
-    public void predictCity(){
-        OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
-        httpClient.addInterceptor(new Interceptor() {
-            @Override
-            public Response intercept(Chain chain) throws IOException {
-
-                Request original = chain.request();
-
-                Request request = original.newBuilder()
-                        .header("Authorization", city_apiKey)
-                        .header("Content-Type", "application/json")
-                        .header("Accept", "application/json")
-                        .method(original.method(), original.body())
-                        .build();
-
-                return chain.proceed(request);
-            }
-        });
-
-        OkHttpClient client = httpClient.build();
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(city_url)
-                .addConverterFactory(GsonConverterFactory.create())
-                .client(client)
-                .build();
-
-        List<String> values = getValues();
-        input1 input1 = new input1(values);
-        Inputs inputs = new Inputs(input1);
-        Sendinput sendinput = new Sendinput(inputs);
-
-        City_retrofitInterface retro = retrofit.create(City_retrofitInterface.class);
-
-        Gson gson = new Gson();
-        Type type = new TypeToken<Sendinput>() {}.getType();
-        String json = gson.toJson(sendinput, type);
-        Log.d("json request",json);
-
-        Call<Output> call = retro.getResult("2.0", true,sendinput);
-        call.enqueue(new Callback<Output>() {
-            @Override
-            public void onResponse(Call<Output> call, retrofit2.Response<Output> response) {
-                Log.d("response",String.valueOf(response.code()));
-                output1 output1 = response.body().getResults().getOutput1();
-                Log.d("Message", "message received "+ output1.getType());
-                setupCityPiechart(output1);
-            }
-
-            @Override
-            public void onFailure(Call<Output> call, Throwable t) {
-                Log.d("Error", "Not Received");
-            }
-        });
-
 
     }
 
@@ -268,7 +264,7 @@ public class Result extends AppCompatActivity {
             values.add("0");
             values.add("0");
         }
-        else if (branch.equals("Civil")){
+        else if (branch.equals("CIVIL")){
             values.add("0");
             values.add("0");
             values.add("0");
@@ -283,43 +279,109 @@ public class Result extends AppCompatActivity {
         return values;
     }
 
-    public void setupCityPiechart(output1 output1){
-        value predictedValues = output1.getValue();
-        List<String> probabilities = predictedValues.getValues().get(0);
-        List<PieEntry> yvalues = new ArrayList<>();
-        int count = 0;
-        for (int i = 17; i<=30 ; i++){
-            yvalues.add(new PieEntry(Float.parseFloat(probabilities.get(i)), predictedValues.getColumnNames().get(i)));
-            count++;
-        }
-        PieDataSet dataSet = new PieDataSet(yvalues, "Probabilities of Cities");
 
-        List<String> xVals = new ArrayList<String>();
-        xVals.add("Ahmedabad");
-        xVals.add("Bangalore");
-        xVals.add("Bhopal");
-        xVals.add("Bhubaneshwar");
-        xVals.add("Chandigarh");
-        xVals.add("Chennai");
-        xVals.add("Delhi");
-        xVals.add("Ghaziabad");
-        xVals.add("Gurgaon");
-        xVals.add("Hyderabad");
-        xVals.add("Kolkata");
-        xVals.add("Mumbai");
-        xVals.add("Noida");
-        xVals.add("Pune");
+    String getCityName(String name){
+        if (name.equals("Scored Probabilities for Class \"Ahmedabad\""))
+            return "Ahmedabad";
+        else if (name.equals("Scored Probabilities for Class \"Bangalore\""))
+            return "Bangalore";
+        else if (name.equals("Scored Probabilities for Class \"Bhopal\""))
+            return "Bhopal";
+        else if (name.equals("Scored Probabilities for Class \"Chandigarh\""))
+            return "Chandigarh";
+        else if (name.equals("Scored Probabilities for Class \"Chennai\""))
+            return "Chennai";
+        else if (name.equals("Scored Probabilities for Class \"Delhi\""))
+            return "Delhi";
+        else if (name.equals("Scored Probabilities for Class \"Ghaziabad\""))
+            return "Ghaziabad";
+        else if (name.equals("Scored Probabilities for Class \"Gurgaon\""))
+            return "Gurgaon";
+        else if (name.equals("Scored Probabilities for Class \"Hyderabad\""))
+            return "Hyderabad";
+        else if (name.equals("Scored Probabilities for Class \"Kolkata\""))
+            return "Kolkata";
+        else if (name.equals("Scored Probabilities for Class \"Mumbai\""))
+            return "Mumbai";
+        else if (name.equals("Scored Probabilities for Class \"Noida\""))
+            return "Noida";
+        else if (name.equals("Scored Probabilities for Class \"Pune\""))
+            return "Pune";
+        else if (name.equals("Scored Probabilities for Class \"Bhubaneshwar\""))
+            return "Bhubaneshwar";
+        else
+            return null;
 
-        PieData data = new PieData(dataSet);
+    }
 
-        data.setValueFormatter(new PercentFormatter());
-        city_piechart.setData(data);
+    String getDesignationName(String name){
+        if(name.equals("Scored Probabilities for Class \".Net Developer\""))
+            return ".Net Developer";
+        else if(name.equals("Scored Probabilities for Class \"Application Developer\""))
+            return "Application Developer";
+        else if(name.equals("Scored Probabilities for Class \"asp.Net Developer\""))
+            return "asp.Net Developer";
+        else if(name.equals("Scored Probabilities for Class \"Automation Engineer\""))
+            return "Automation Engineer";
+        else if(name.equals("Scored Probabilities for Class \"Business Analyst\""))
+            return "Business Analyst";
+        else if(name.equals("Scored Probabilities for Class \"Customer Service\""))
+            return "Customer Service";
+        else if(name.equals("Scored Probabilities for Class \"Data Analyst\""))
+            return "Data Analyst";
+        else if(name.equals("Scored Probabilities for Class \"Designer\""))
+            return "Designer";
+        else if(name.equals("Scored Probabilities for Class \"Desktop Engineer\""))
+            return "Desktop Engineer";
+        else if(name.equals("Scored Probabilities for Class \"Electrical Engineer\""))
+            return "Electrical Engineer";
+        else if(name.equals("Scored Probabilities for Class \"Game Developer\""))
+            return "Game Developer";
+        else if(name.equals("Scored Probabilities for Class \"Information Security\""))
+            return "Information Security";
+        else if(name.equals("Scored Probabilities for Class \"Mobile Developer\""))
+            return "Mobile Developer";
+        else if(name.equals("Scored Probabilities for Class \"Network Engineer\""))
+            return "Network Engineer";
+        else if(name.equals("Scored Probabilities for Class \"Operations Analyst\""))
+            return "Operations Analyst";
+        else if(name.equals("Scored Probabilities for Class \"Product Engineer\""))
+            return "Product Engineer";
+        else if(name.equals("Scored Probabilities for Class \"Programmer\""))
+            return "Programmer";
+        else if(name.equals("Scored Probabilities for Class \"Project Engineer\""))
+            return "Project Engineer";
+        else if(name.equals("Scored Probabilities for Class \"Quality Analyst\""))
+            return "Quality Analyst";
+        else if(name.equals("Scored Probabilities for Class \"Quality Engineer\""))
+            return "Quality Engineer";
+        else if(name.equals("Scored Probabilities for Class \"Research Engineer\""))
+            return "Research Engineer";
+        else if(name.equals("Scored Probabilities for Class \"Sales Engineer\""))
+            return "Sales Engineer";
+        else if(name.equals("Scored Probabilities for Class \"Software Developer\""))
+            return "Software Developer";
+        else if(name.equals("Scored Probabilities for Class \"Software Engineer\""))
+            return "Software Engineer";
+        else if(name.equals("Scored Probabilities for Class \"System Engineer\""))
+            return "System Engineer";
+        else if(name.equals("Scored Probabilities for Class \"Systems Analyst\""))
+            return "Systems Analyst";
+        else if(name.equals("Scored Probabilities for Class \"Systems Engineer\""))
+            return "Systems Engineer";
+        else if(name.equals("Scored Probabilities for Class \"Technical Engineer\""))
+            return "Technical Engineer";
+        else if(name.equals("Scored Probabilities for Class \"Telecom Engineer\""))
+            return "Telecom Engineer";
+        else if(name.equals("Scored Probabilities for Class \"Test Engineer\""))
+            return "Test Engineer";
+        else if(name.equals("Scored Probabilities for Class \"Web Developer\""))
+            return "Web Developer";
+        else if(name.equals("Scored Probabilities for Class \"Database Developer\""))
+            return "Database Developer";
+        else
+            return null;
 
-        //Disable Hole in the Pie Chart
-        city_piechart.setDrawHoleEnabled(false);
-
-        data.setValueTextSize(13f);
-        data.setValueTextColor(Color.DKGRAY);
     }
 
 }

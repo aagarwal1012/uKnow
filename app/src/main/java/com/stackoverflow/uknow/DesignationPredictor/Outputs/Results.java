@@ -10,6 +10,10 @@ public class Results {
     public Results() {
     }
 
+    public void setOutput1(com.stackoverflow.uknow.DesignationPredictor.Outputs.output1 output1) {
+        this.output1 = output1;
+    }
+
     public output1 getOutput1() {
         return output1;
     }

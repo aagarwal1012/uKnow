@@ -11,6 +11,15 @@ public class output1 {
     public output1() {
     }
 
+    public void setValue(com.stackoverflow.uknow.DesignationPredictor.Outputs.value value) {
+
+        this.value = value;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
     public value getValue() {
         return value;
     }

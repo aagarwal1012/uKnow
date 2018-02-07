@@ -11,7 +11,15 @@ public class Output {
         return Results;
     }
 
+    public Output() {
+    }
+
+    public void setResults(com.stackoverflow.uknow.DesignationPredictor.Outputs.Results results) {
+        Results = results;
+    }
+
     public Output(Results results) {
+
 
         Results = results;
     }
