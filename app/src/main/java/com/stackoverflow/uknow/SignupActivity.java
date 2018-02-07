@@ -292,31 +292,6 @@ public class SignupActivity extends AppCompatActivity {
 
     }
 
-//    private void uploadPic() {
-//
-//        if (filepath != null){
-//            final String temp = UUID.randomUUID().toString();
-//            StorageReference ref = storageReference.child("images/profilePics/" + _emailText.getText().toString() + "/" + temp);
-//            ref.putFile(filepath).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-//                @Override
-//                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-//
-//                    // Get url to the uploaded content;
-//                    imageUrl = taskSnapshot.getDownloadUrl();
-//                    signUpUser(_emailText.getText().toString(),_passwordText.getText().toString(), _nameText.getText().toString(), taskSnapshot.getDownloadUrl());
-//
-//                }
-//            }).addOnFailureListener(new OnFailureListener() {
-//                @Override
-//                public void onFailure(@NonNull Exception e) {
-//                    Log.d(" ", "onFailure: ", e);
-//                }
-//            });
-//
-//        }
-//
-//    }
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);

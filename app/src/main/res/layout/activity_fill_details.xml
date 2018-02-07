@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/golu2"
+    android:alpha="0.8"
+    tools:context=".FillDetails"
+    >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_marginTop="10dp"
+            android:layout_height="wrap_content"
+            android:text="Your Details"
+            android:textColor="#ffffff"
+            android:textAlignment="center"
+            android:textSize="30dp"/>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_marginLeft="10dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="15dp"
+            android:layout_marginTop="15dp">
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/cgpa"
+                android:hint="CGPA"
+                android:textSize="20dp"
+                android:textColor="#ffffff"
+                tools:ignore="InvalidId" />
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="15dp">
+
+            <EditText
+                android:id="@+id/tenth"
+                android:layout_width="match_parent"
+                android:textColor="#ffffff"
+                android:layout_marginLeft="10dp"
+                android:textColorHighlight="#ffffff"
+                android:layout_height="wrap_content"
+                android:hint="10th percentage"
+                android:textSize="20dp"
+                tools:ignore="InvalidId" />
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="15dp">
+            <EditText
+                android:id="@+id/twelth"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="#ffffff"
+                android:textSize="20dp"
+                android:layout_marginLeft="10dp"
+                android:hint="12th percentage"
+                tools:ignore="InvalidId" />
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="15dp">
+            <Spinner
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Type of college"
+                android:layout_marginBottom="0dp"
+                android:id="@+id/spin1"
+                android:layout_marginLeft="10dp"
+                android:scrollbarSize="25dp"
+                />
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="25dp">
+            <Spinner
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Branch"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:id="@+id/spin2"
+                tools:ignore="InvalidId"
+                android:scrollbarSize="25dp"/>
+        </android.support.design.widget.TextInputLayout>
+
+        <Button
+            android:id="@+id/submitbtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Submit"
+            android:textSize="21dp"
+            android:padding="10dp"
+            android:layout_marginTop="0dp"
+            android:textColor="#ffffff"
+            android:textAlignment="center"
+            tools:ignore="InvalidId"
+            android:background="#29000000"
+            />
+
+    </LinearLayout>
+
+
+</RelativeLayout>

@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android" >
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp"
+    >
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TableRow>
+
+            <TextView
+                android:text="Field"
+                android:textColor="#000000"
+                android:textStyle="bold"
+                android:textSize="20sp"
+                android:layout_marginLeft="30dp"
+                android:layout_marginTop="20dp"
+
+                />
+            <TextView
+                android:text="Marks"
+                android:textColor="#000000"
+                android:textStyle="bold"
+                android:textSize="20sp"
+                android:layout_marginLeft="85dp"
+                android:layout_marginTop="20dp"
+
+                />
+        </TableRow>
+        <TableRow>
+
+            <TextView
+                android:text="English"
+                android:textColor="#000000"
+                android:textStyle="bold"
+                android:textSize="20sp"
+                android:layout_marginTop="20dp"
+
+                />
+            <TextView
+                android:textSize="20sp"
+                android:id="@+id/english_marks"
+                android:layout_marginLeft="85dp"
+                android:textColor="#000000"
+                android:textStyle="bold"
+                android:layout_marginTop="20dp"
+
+                />
+        </TableRow>
+        <TableRow>
+
+            <TextView
+                android:text="Basic Programming"
+                android:textColor="#000000"
+                android:textStyle="bold"
+                android:textSize="20sp"
+                android:layout_marginTop="20dp"
+
+                />
+            <TextView
+                android:textSize="20sp"
+                android:id="@+id/basic_programming_marks"
+                android:layout_marginLeft="85dp"
+                android:textColor="#000000"
+                android:textStyle="bold"
+                android:layout_marginTop="20dp"
+
+                />
+        </TableRow>
+        <TableRow>
+
+            <TextView
+                android:text="Branch Specific"
+                android:textSize="20sp"
+                android:textColor="#000000"
+                android:textStyle="bold"
+                android:layout_marginTop="20dp"
+
+                />
+            <TextView
+                android:textSize="20sp"
+                android:id="@+id/branch_specific_marks"
+                android:layout_marginLeft="85dp"
+                android:layout_marginTop="20dp"
+                android:textColor="#000000"
+                android:textStyle="bold"
+
+                />
+        </TableRow>
+        <TableRow>
+
+            <TextView
+                android:text="Personality"
+                android:textSize="20sp"
+                android:textColor="#000000"
+                android:textStyle="bold"
+                android:layout_marginTop="20dp"
+
+                />
+            <TextView
+                android:textSize="20sp"
+                android:id="@+id/personality_marks"
+                android:layout_marginLeft="85dp"
+                android:layout_marginTop="20dp"
+                android:textColor="#000000"
+                android:textStyle="bold"
+
+                />
+        </TableRow>
+        <TableRow>
+
+            <TextView
+                android:text="Logic Based"
+                android:textColor="#000000"
+                android:textStyle="bold"
+                android:textSize="20sp"
+                android:layout_marginTop="20dp"
+
+                />
+            <TextView
+                android:textSize="20sp"
+                android:id="@+id/logic_marks"
+                android:layout_marginLeft="85dp"
+                android:layout_marginTop="20dp"
+                android:textColor="#000000"
+                android:textStyle="bold"
+
+                />
+        </TableRow>
+    </TableLayout>
+    <TableLayout
+        android:id="@+id/table"
+        android:layout_width="500dp"
+        android:layout_height="wrap_content">
+        <TableRow
+            android:layout_marginTop="300dp"
+            android:layout_marginLeft="130dp">
+            <TextView android:text="Qualities"
+                android:textColor="#000000"
+                android:textStyle="bold"
+                android:textSize="17sp"/>
+            <TextView
+                android:text="Rating"
+                android:textColor="#000000"
+                android:textStyle="bold"
+                android:layout_marginLeft="25dp"
+                android:textSize="17dp"/>
+        </TableRow>
+        <TableRow
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="130dp">
+            <TextView android:text="Openess"
+                android:textColor="#000000"
+                android:textStyle="italic"
+                android:textSize="17sp"/>
+            <TextView
+                android:textColor="#000000"
+                android:textStyle="italic"
+                android:id="@+id/q1"
+                android:layout_marginLeft="25dp"
+                android:textSize="17dp"/>
+        </TableRow>
+        <TableRow
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="130dp">
+            <TextView android:text="Extraversion"
+                android:textColor="#000000"
+                android:textStyle="italic"
+                android:textSize="17sp"/>
+            <TextView
+                android:textColor="#000000"
+                android:textStyle="italic"
+                android:id="@+id/q2"
+                android:layout_marginLeft="25dp"
+                android:textSize="17dp"/>
+        </TableRow>
+        <TableRow
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="130dp">
+            <TextView android:text="Neuroticism"
+                android:textColor="#000000"
+                android:textStyle="italic"
+                android:textSize="17sp"/>
+            <TextView
+                android:textColor="#000000"
+                android:textStyle="italic"
+                android:layout_marginLeft="25dp"
+                android:id="@+id/q3"
+                android:textSize="17dp"/>
+        </TableRow>
+        <TableRow
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="130dp">
+            <TextView android:text="Conscientiousness"
+                android:textColor="#000000"
+                android:textStyle="italic"
+                android:textSize="17sp"/>
+            <TextView
+                android:textColor="#000000"
+                android:textStyle="italic"
+                android:layout_marginLeft="25dp"
+                android:id="@+id/q4"
+                android:textSize="17dp"/>
+        </TableRow>
+        <TableRow
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="130dp">
+            <TextView android:text="Agreeableness"
+                android:textColor="#000000"
+                android:textStyle="italic"
+                android:textSize="17sp"/>
+            <TextView
+                android:textColor="#000000"
+                android:textStyle="italic"
+                android:layout_marginLeft="25dp"
+                android:id="@+id/q5"
+                android:textSize="17dp"/>
+        </TableRow>
+    </TableLayout>
+
+    <com.github.mikephil.charting.charts.PieChart
+        android:layout_marginTop="20dp"
+        android:layout_below="@+id/table"
+        android:id="@+id/city_piechart"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+</RelativeLayout>
+</ScrollView>
