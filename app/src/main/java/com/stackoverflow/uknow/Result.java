@@ -283,7 +283,7 @@ public class Result extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 databaseReference.child("Interview").child("share").child(dataId).setValue(interviewResult);
-                Toast.makeText(Result.this, "Posted Sucessfully", Toast.LENGTH_SHORT).show();
+                Toast.makeText(Result.this, "Shared Sucessfully", Toast.LENGTH_SHORT).show();
                 share_btn.setClickable(false);
             }
         });

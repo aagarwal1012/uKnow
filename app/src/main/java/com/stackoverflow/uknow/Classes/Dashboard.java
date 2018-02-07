@@ -19,12 +19,14 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.stackoverflow.uknow.LoginActivity;
 import com.stackoverflow.uknow.MainActivity;
+import com.stackoverflow.uknow.NewsFeed;
 import com.stackoverflow.uknow.R;
 import com.stackoverflow.uknow.UserProfile;
 
@@ -77,6 +79,7 @@ public class Dashboard extends AppCompatActivity
 
     private void setupViewPager(ViewPager viewPager) {
         Adapter adapter = new Adapter(getSupportFragmentManager());
+        adapter.addFragment(new NewsFeed(), "Feeds");
         adapter.addFragment(new UserProfile(), "User Profile");
         viewPager.setAdapter(adapter);
     }
@@ -149,11 +152,16 @@ public class Dashboard extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_prev_interviews) {
+            Toast.makeText(this, "Coming Soon!", Toast.LENGTH_SHORT).show();
 
         } else if (id == R.id.nav_about) {
+            startActivity(new Intent(getApplicationContext(), About.class));
 
         } else if (id == R.id.bt_logout) {
             logoutUser();
+        }
+        else if (id == R.id.nav_interview){
+            startActivity(new Intent(getApplicationContext(), MainActivity.class));
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

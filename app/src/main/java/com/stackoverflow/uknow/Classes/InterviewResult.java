@@ -10,6 +10,9 @@ public class InterviewResult {
 
     String name, imageUrl, dataId;
 
+    public InterviewResult() {
+    }
+
     public InterviewResult(Double percentage_marks, Double income, String name, String imageUrl, String dataId) {
         this.percentage_marks = percentage_marks;
         this.income = income;

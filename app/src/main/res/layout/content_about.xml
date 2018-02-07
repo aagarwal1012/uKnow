@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/bg6"
+        android:orientation="vertical"
+        android:layout_marginBottom="50dp"
+        tools:context="com.example.user.about.MainActivity">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:textSize="30dp"
+            android:textColor="#000000"
+            android:text="About App"
+            android:layout_marginBottom="15dp"/>
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="match_parent"
+            android:textColor="#000000"
+            android:layout_height="wrap_content"
+            android:text="It predicts your future by taking a virtual interview. This app will take your interview like a job interview. First of all, we will be going to use Emotion API in detecting your confidence level while taking your interview and will be going to assign marks for that. Secondly, this app asks your some academic and other achievements. Thirdly it will ask you some questions to test your conscientiousness, agreeableness, extraversion, and openess_to_experience and finally use our pre-trained Machine Learning Model { trained by AMEO data-sets} and predicts your future package"
+            tools:layout_editor_absoluteX="148dp"
+            tools:layout_editor_absoluteY="43dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"/>
+
+        <TextView
+            android:id="@+id/textView8"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/textView"
+            android:textColor="#000000"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="25dp"
+            android:text="TEAM:"
+            android:textAlignment="center"
+            android:textSize="25dp" />
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/textView"
+            android:textColor="#000000"
+            android:layout_marginTop="12dp"
+            android:text="StackOverflow"
+            android:textAlignment="center"
+            android:textSize="35dp" />
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/textView2"
+            android:layout_marginTop="25dp"
+            android:src="@drawable/jh" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/imageView"
+            android:textColor="#000000"
+            android:layout_marginTop="23dp"
+            android:layout_marginBottom="40dp"
+            android:text="Abhijeet    Prateek    Ayush"
+            android:textAlignment="center"
+            android:textSize="25dp" />
+
+    </LinearLayout>
+</ScrollView>

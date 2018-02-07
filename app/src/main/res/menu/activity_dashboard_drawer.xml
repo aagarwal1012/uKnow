@@ -6,6 +6,11 @@
     <group android:checkableBehavior="single">
 
         <item
+            android:id="@+id/nav_interview"
+            android:icon="@drawable/ic_add_circle"
+            android:title="Take a New Interview" />
+
+        <item
             android:id="@+id/nav_prev_interviews"
             android:icon="@drawable/ic_previous_interviews"
             android:title="Your Previous Interviews" />
