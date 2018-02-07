@@ -1,10 +1,13 @@
 package com.stackoverflow.uknow;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.data.Entry;
@@ -12,12 +15,16 @@ import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.formatter.PercentFormatter;
 import com.github.mikephil.charting.utils.ColorTemplate;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.stackoverflow.uknow.Classes.Dashboard;
 import com.stackoverflow.uknow.Classes.IncomeCalculator;
+import com.stackoverflow.uknow.Classes.InterviewResult;
 import com.stackoverflow.uknow.DesignationPredictor.Outputs.value;
 
 import java.util.ArrayList;
@@ -50,11 +57,19 @@ public class Result extends AppCompatActivity {
     FirebaseDatabase firebaseDatabase;
     DatabaseReference databaseReference;
 
+    FirebaseUser user;
+
     value city_value, designation_value;
 
     TextView income, city, designation;
 
     TextView income_text_view, city_textview, designation_textview;
+
+    Button share_btn, dashboard_btn;
+
+    String dataId;
+
+    InterviewResult interviewResult;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,6 +79,9 @@ public class Result extends AppCompatActivity {
         //Firebase
         firebaseDatabase = FirebaseDatabase.getInstance();
         databaseReference = firebaseDatabase.getReference();
+        user = FirebaseAuth.getInstance().getCurrentUser();
+
+        dataId = databaseReference.child("Interview").push().getKey();
 
 
         TOTAL_SCORE = Double.parseDouble(getIntent().getExtras().getString("Total"));
@@ -114,10 +132,20 @@ public class Result extends AppCompatActivity {
         city_textview = (TextView) findViewById(R.id.city_textview);
         designation_textview = (TextView) findViewById(R.id.designation_textview);
 
+        share_btn = (Button) findViewById(R.id.share_bt);
+        dashboard_btn = (Button) findViewById(R.id.dashboard_btn);
+
         double percentage = ((English_marks+Logic_marks+Basic_cp_marks+Personality_marks+Branch_specific_marks)/45)*100;
 
         IncomeCalculator incomeCalculator = new IncomeCalculator(cg,percentage, clg, branch );
         Double income_x = ((int)(incomeCalculator.getP()*100))/100.0;
+
+        dashboard_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(Result.this, Dashboard.class));
+            }
+        });
 
         if (income_x != 0.0){
 
@@ -220,6 +248,7 @@ public class Result extends AppCompatActivity {
 
                 }
             });
+
         }
         else {
             income.setVisibility(View.INVISIBLE);
@@ -235,6 +264,8 @@ public class Result extends AppCompatActivity {
             designation_piechart.setVisibility(View.INVISIBLE);
         }
 
+        interviewResult = new InterviewResult(percentage, income_x, user.getDisplayName(), user.getPhotoUrl().toString(), dataId);
+        databaseReference.child("Interview").child(user.getUid()).child(dataId).setValue(interviewResult);
 
         english_text_view.setText(""+English_marks);
         logic_text_view.setText(""+Logic_marks);
@@ -247,6 +278,15 @@ public class Result extends AppCompatActivity {
         extraversion_text_view.setText(""+extraversion);
         nueroticism_text_view.setText(""+ nueroticism);
         openess_to_experience_text_view.setText(""+openess_to_experience);
+
+        share_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                databaseReference.child("Interview").child("share").child(dataId).setValue(interviewResult);
+                Toast.makeText(Result.this, "Posted Sucessfully", Toast.LENGTH_SHORT).show();
+                share_btn.setClickable(false);
+            }
+        });
 
     }
 

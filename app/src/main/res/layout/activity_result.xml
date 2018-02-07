@@ -321,6 +321,29 @@
         android:textSize="18sp"
         android:textStyle="bold" />
 
+    <Button
+        android:id="@+id/share_bt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/designation"
+        android:layout_marginTop="67dp"
+        android:layout_toStartOf="@+id/income_text_view"
+        android:background="#00000000"
+        android:text="Share with Others"
+        android:textSize="16dp"
+        android:textColor="#010dff"
+        android:textStyle="bold" />
+
+    <Button
+        android:id="@+id/dashboard_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/share_bt"
+        android:layout_alignStart="@+id/designation"
+        android:textColor="#010dff"
+        android:background="#00000000"
+        android:textStyle="bold"
+        android:text="Go to DashBoard" />
 
 
 </RelativeLayout>
