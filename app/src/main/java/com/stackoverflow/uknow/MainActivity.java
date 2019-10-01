@@ -15,15 +15,15 @@ public class MainActivity extends AppCompatActivity {
 
     Button start;
     TextView dashboard;
-    TextView x;
+    TextView y;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        x = (TextView) findViewById(R.id.textView);
-        x.setMovementMethod(new ScrollingMovementMethod());
+        y = (TextView) findViewById(R.id.textView);
+        y.setMovementMethod(new ScrollingMovementMethod());
 
         dashboard = (TextView) findViewById(R.id.textView5);
         dashboard.setOnClickListener(new View.OnClickListener() {
